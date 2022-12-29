@@ -3,5 +3,12 @@
 version = 3
 
 [[package]]
-name = "megarepo"
+name = "cli"
+version = "0.1.0"
+dependencies = [
+ "io",
+]
+
+[[package]]
+name = "io"
 version = "0.1.0"

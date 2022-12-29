@@ -1,8 +1,16 @@
-[package]
-name = "megarepo"
-version = "0.1.0"
-edition = "2021"
-
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[dependencies]
+[workspace]
+
+members = [
+    "cli",
+    "io",
+]
+
+[workspace.package]
+authors = ["Cody Averett"]
+edition = "2022"
+license = "MIT"
+repository = "https://github.com/codyaverett/megarepo"
+
+[workspace.dependencies]

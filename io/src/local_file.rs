@@ -1,0 +1,67 @@
+use std::{
+    fs::{File, OpenOptions},
+    io::{Read, Write},
+    path::Path,
+};
+
+pub struct LocalFile {
+    pub path: String,
+    pub name: String,
+    pub size: u64,
+    pub contents: String,
+    pub ephemeral: bool,
+    pub permissions: u32,
+}
+
+// implement FileRef
+impl LocalFile {
+    // constructor
+    pub fn new(
+        path: &str,
+        name: &str,
+        contents: &str,
+        ephemeral: bool,
+        permissions: u32,
+    ) -> LocalFile {
+        let file = LocalFile {
+            path: format!("{}/{}", path, name),
+            name: name.to_string(),
+            size: 0,
+            contents: contents.to_string(),
+            ephemeral,
+            permissions,
+        };
+
+        // create file if it doesn't exist
+        if !file.exists(&file.path) {
+            file.create(&file.path);
+        }
+
+        // write contents to file
+        file.write(&file.path, contents);
+
+        file
+    }
+
+    // method to check if file exists
+    pub fn exists(&self, path: &str) -> bool {
+        let path = Path::new(path);
+        path.exists() && path.is_file()
+    }
+
+    // method to create file if it doesn't exist
+    pub fn create(&self, path: &str) -> File {
+        let path = Path::new(path);
+        let file = match File::create(path) {
+            Err(why) => panic!("couldn't create {}: {}", path.display(), why),
+            Ok(file) => file,
+        };
+        return file;
+    }
+
+    pub fn write(&self, path: &str, contents: &str) {
+        let mut file = File::create(path).expect("Unable to create file");
+        file.write_all(contents.as_bytes())
+            .expect("Unable to write data");
+    }
+}
