@@ -72,3 +72,20 @@ impl LocalFile {
             .expect("Unable to write data");
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_create_file() {
+        let file = LocalFile::new("/tmp", "test.txt", "test", false, 0o777);
+        assert_eq!(file.exists(&file.path), true);
+    }
+
+    #[test]
+    fn test_create_ephemeral_file() {
+        let file = LocalFile::new("/tmp", "test.txt", "test", true, 0o777);
+        assert_eq!(file.exists(&file.path), false);
+    }
+}
