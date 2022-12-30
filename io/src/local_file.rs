@@ -51,6 +51,10 @@ impl LocalFile {
     }
 
     pub fn create(&self, path: &str) -> File {
+        if self.ephemeral {
+            panic!("Cannot create ephemeral file");
+        }
+
         let path = Path::new(path);
 
         let file = match File::create(path) {
