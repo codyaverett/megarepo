@@ -13,9 +13,7 @@ pub struct LocalFile {
     pub permissions: u32,
 }
 
-// implement FileRef
 impl LocalFile {
-    // constructor
     pub fn new(
         path: &str,
         name: &str,
@@ -43,24 +41,25 @@ impl LocalFile {
         file
     }
 
-    // method to check if file exists
     pub fn exists(&self, path: &str) -> bool {
         let path = Path::new(path);
         path.exists() && path.is_file()
     }
 
-    // method to create file if it doesn't exist
     pub fn create(&self, path: &str) -> File {
         let path = Path::new(path);
+
         let file = match File::create(path) {
             Err(why) => panic!("couldn't create {}: {}", path.display(), why),
             Ok(file) => file,
         };
+
         return file;
     }
 
     pub fn write(&self, path: &str, contents: &str) {
         let mut file = File::create(path).expect("Unable to create file");
+
         file.write_all(contents.as_bytes())
             .expect("Unable to write data");
     }
