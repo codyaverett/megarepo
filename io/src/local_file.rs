@@ -30,13 +30,17 @@ impl LocalFile {
             permissions,
         };
 
+        // We do not want to create a file if it is ephemeral
+        if file.ephemeral {
+            return file;
+        }
+
         // create file if it doesn't exist
         if !file.exists(&file.path) {
             file.create(&file.path);
+            // write contents to file
+            file.write(&file.path, contents);
         }
-
-        // write contents to file
-        file.write(&file.path, contents);
 
         file
     }
