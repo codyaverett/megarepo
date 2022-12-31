@@ -66,6 +66,10 @@ impl LocalFile {
     }
 
     pub fn write(&self, path: &str, contents: &str) {
+        if self.ephemeral {
+            panic!("Cannot create ephemeral file");
+        }
+
         let mut file = File::create(path).expect("Unable to create file");
 
         file.write_all(contents.as_bytes())
