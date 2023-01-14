@@ -32,16 +32,21 @@ export function readProjectConfigFile(projectRoot: string): Project[] {
                 path: ""
             };
             project.name = line.replace("- ", "");
+        }
+    }
 
-            // function to create a project yaml configuration file
-            export function createProjectConfigFile(projects: Project[], projectRoot: string) {
-                let yaml = "";
-                for (let project of projects) {
-                    yaml += `- ${project.name}:\n`;
-                    yaml += `  repo: ${project.repo}\n`;
-                    yaml += `  branch: ${project.branch}\n`;
-                    yaml += `  path: ${project.path}\n`;
-                    yaml += `\n`;
-                }
-                fs.writeFileSync(path.join(projectRoot, "projects.yaml"), yaml);
-            }
+    return projects;
+}
+
+// function to create a project yaml configuration file
+export function createProjectConfigFile(projects: Project[], projectRoot: string) {
+    let yaml = "";
+    for (let project of projects) {
+        yaml += `- ${project.name}:\n`;
+        yaml += `  repo: ${project.repo}\n`;
+        yaml += `  branch: ${project.branch}\n`;
+        yaml += `  path: ${project.path}\n`;
+        yaml += `\n`;
+    }
+    fs.writeFileSync(path.join(projectRoot, "projects.yaml"), yaml);
+}
